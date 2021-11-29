@@ -1,0 +1,23 @@
+require('plugins')
+require('settings')
+require('keymaps')
+require('dashboard')
+require('statusline')
+require('theme')
+require('tree')
+require('tabline')
+require('finder')
+
+-- LSP
+require('lsp')
+require('lsp.completion')
+require('lsp.efm-ls')
+require('lsp.python-ls')
+require('lsp.js-ts-ls')
+require('lsp.cpp-ls')
+require('lsp.lua-ls')
+require('lsp.cmake-ls')
+require('lsp.css-ls')
+require('lsp.emmet-ls')
+-- Not Working
+-- require('lsp.tailwind-ls')
