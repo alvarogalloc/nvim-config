@@ -1,4 +1,10 @@
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-capabilities.document_formatting = false
 
-require'lspconfig'.tsserver.setup {capabilities = capabilities, on_attach = require'lsp'.on_attach}
+require'lspconfig'.tsserver.setup {
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+        require'lsp'.on_attach(client, bufnr)
+    end
+}

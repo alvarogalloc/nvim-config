@@ -16,6 +16,7 @@ return require('packer').startup(function()
     use {'L3MON4D3/LuaSnip'}
     use 'rafamadriz/friendly-snippets'
     use 'github/copilot.vim'
+    use 'jose-elias-alvarez/null-ls.nvim'
 
     -- Tresitter syntax highlighting
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}

@@ -51,7 +51,11 @@ function lsp.on_attach(client, bufnr)
     buf_set_keymap("n", "<C-f>", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
     -- RUN CODE
-    if vim.bo.filetype == "javascript" then buf_set_keymap('n', '<C-r>', ':vs | term node % <CR>', opts) end
+    if vim.bo.filetype == "javascript" then
+      buf_set_keymap('n', '<C-r>', ':vs | term node % <CR>', opts)
+      client.resolved_capabilities.document_formatting = false
+      client.resolved_capabilities.document_range_formatting = false
+    end
     if vim.bo.filetype == "lua" then buf_set_keymap('n', '<C-r>', ':vs | term lua % <CR>', opts) end
     if vim.bo.filetype == "python" then buf_set_keymap('n', '<C-r>', ':vs | term python3 % <CR>', opts) end
 
