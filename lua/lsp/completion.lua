@@ -9,7 +9,7 @@ local has_words_before = function()
 end
 
 cmp.setup({
-    experimental = {ghost_text = false},
+    experimental = {ghost_text = false, native_menu = true},
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body) -- For `luasnip` users.

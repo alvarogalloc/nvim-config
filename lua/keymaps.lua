@@ -4,6 +4,10 @@ local opts = {noremap = true, silent = true}
 set_keymap('', '<Space>', '<Nop>', opts)
 vim.g.mapleader = " "
 
+-- Remap for dealing with word wrap
+vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
+vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
+
 set_keymap('n', '<Leader>x', ':exit<CR>', opts)
 set_keymap('n', '<Leader>w', ':w<CR>', opts)
 set_keymap('n', '<Leader>f', ':NvimTreeToggle<CR>', opts)
@@ -22,10 +26,8 @@ set_keymap('n', '<C-k>', ':m .-2<CR>==', opts)
 
 set_keymap('i', '<C-j>', '<Esc>:m .+1<CR>==gi', opts)
 set_keymap('i', '<C-k>', '<Esc>:m .-2<CR>==gi', opts)
-set_keymap('n', '<C-s>', ':lua require\'finder\'.ff()<CR>', opts)
-set_keymap('i', '<C-s>', '<Esc>:lua require\'finder\'.ff()<CR>', opts)
+set_keymap('n', '<Leader><Space>', ':lua require\'finder\'.ff()<CR>', opts)
 set_keymap('n', '<C-p>', ':lua require\'finder\'.pr()<CR>', opts)
-set_keymap('i', '<C-p>', '<Esc>:lua require\'finder\'.pr()<CR>', opts)
 
 -- Highlight
 set_keymap('n', '<Leader>hl', ':set hlsearch!<CR>', opts)

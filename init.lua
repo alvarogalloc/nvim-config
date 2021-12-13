@@ -7,6 +7,7 @@ require('theme')
 require('tree')
 require('tabline')
 require('finder')
+require('emmet')
 
 -- LSP
 require('lsp')
@@ -17,7 +18,6 @@ require('lsp.cpp-ls')
 require('lsp.lua-ls')
 require('lsp.cmake-ls')
 require('lsp.css-ls')
-require('lsp.emmet-ls')
 require('lsp.null-ls')
 -- not working
 -- require('lsp.tailwind-ls')

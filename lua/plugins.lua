@@ -42,7 +42,8 @@ return require('packer').startup(function()
 
     -- Theme
     use 'glepnir/dashboard-nvim'
-    use 'navarasu/onedark.nvim'
+    use 'olimorris/onedarkpro.nvim'
+
 
     -- MISC
     use 'kyazdani42/nvim-web-devicons'
@@ -51,5 +52,5 @@ return require('packer').startup(function()
     use 'terrortylor/nvim-comment'
     use 'windwp/nvim-autopairs'
     use 'norcalli/nvim-colorizer.lua'
-    use 'styled-components/vim-styled-components'
+    use 'mattn/emmet-vim'
 end)

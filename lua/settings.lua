@@ -1,16 +1,20 @@
 vim.cmd('set iskeyword+=-') -- treat dash separated words as a word text object"
 vim.cmd('set shortmess+=c') -- Don't pass messages to |ins-completion-menu|.
 vim.cmd('syntax on') -- syntax highlighting
-vim.cmd('au ColorScheme * hi Normal ctermbg=none guibg=none') -- Transparent BG
 vim.o.pumheight = 10 -- Makes popup menu smaller
 vim.o.fileencoding = "utf-8" -- The encoding written to file
+vim.o.hlsearch = false
+vim.o.ignorecase = true
+vim.o.breakindent = true
+vim.o.smartcase = true
 vim.o.cmdheight = 2 -- More space for displaying messages
 vim.o.mouse = "a" -- Enable your mouse
 vim.o.splitbelow = true -- Horizontal splits will automatically be below
 vim.o.termguicolors = true -- set term gui colors most terminals support this
 vim.o.splitright = true -- Vertical splits will automatically be to the right
-vim.cmd('set ts=2') -- Insert 2 spaces for a tab
-vim.cmd('set sw=2') -- Change the number of space characters inserted for indentation
+vim.cmd('set shiftwidth=2')
+vim.cmd('set tabstop=2')
+vim.cmd('set softtabstop=2')
 vim.cmd('set expandtab') -- Converts tabs to spaces
 vim.bo.smartindent = true -- Makes indenting smart
 vim.wo.number = true -- set numbered lines
@@ -27,6 +31,17 @@ vim.o.clipboard = "unnamedplus" -- Copy paste between vim and everything else
 vim.cmd('filetype plugin on') -- filetype detection
 vim.o.completeopt = "menu,menuone,noselect"
 
+-- Highlight on yank (copy). It will do a nice highlight blink of the thing you just copied.
+vim.api.nvim_exec(
+  [[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  augroup end
+]],
+  false
+)
+
 -- Enable nvim commentary
 require('nvim_comment').setup({comment_empty = false})
 -- Enable nvim autopairs
@@ -42,7 +57,54 @@ require('luasnip/loaders/from_vscode').load()
 
 -- Tresitter
 require'nvim-treesitter.configs'.setup {
-    highlight = {enable = true, custom_captures = {["foo.bar"] = "Identifier"}, additional_vim_regex_highlighting = false},
-    autotag = {enable = true}
+    highlight = {enable = true, additional_vim_regex_highlighting = false},
 }
 
+require('nvim-treesitter.configs').setup {
+  highlight = {
+    enable = true, -- false will disable the whole extension.
+  },
+    autotag = {enable = true},
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = 'gnn',
+      node_incremental = 'grn',
+      scope_incremental = 'grc',
+      node_decremental = 'grm',
+    },
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim.
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm.
+        ['af'] = '@function.outer',
+        ['if'] = '@function.inner',
+        ['ac'] = '@class.outer',
+        ['ic'] = '@class.inner',
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        [']m'] = '@function.outer',
+        [']]'] = '@class.outer',
+      },
+      goto_next_end = {
+        [']M'] = '@function.outer',
+        [']['] = '@class.outer',
+      },
+      goto_previous_start = {
+        ['[m'] = '@function.outer',
+        ['[['] = '@class.outer',
+      },
+      goto_previous_end = {
+        ['[M'] = '@function.outer',
+        ['[]'] = '@class.outer',
+      },
+    },
+  },
+}
