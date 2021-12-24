@@ -8,6 +8,9 @@ require('gallo.tree')
 require('gallo.tabline')
 require('gallo.finder')
 require('gallo.emmet')
+require('gallo.impatient')
+require('gallo.indentline')
+require('gallo.treesitter')
 
 -- LSP
 require('gallo.lsp')
@@ -20,4 +23,5 @@ require('gallo.lsp.cmake-ls')
 require('gallo.lsp.css-ls')
 require('gallo.lsp.null-ls')
 -- not working
--- require('gallo.lsp.tailwind-ls')
+require('gallo.lsp.tailwind-ls')
+-- require('gallo.lsp.rust-ls')
