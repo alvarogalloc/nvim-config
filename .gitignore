@@ -1,2 +1,3 @@
 plugin/
 lua-language-server/
+.DS_Store
