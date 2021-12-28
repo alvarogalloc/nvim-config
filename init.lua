@@ -11,10 +11,11 @@ require('gallo.emmet')
 require('gallo.impatient')
 require('gallo.indentline')
 require('gallo.treesitter')
+require('gallo.autocmds')
+require('gallo.cmp')
 
 -- LSP
 require('gallo.lsp')
-require('gallo.lsp.completion')
 require('gallo.lsp.python-ls')
 require('gallo.lsp.js-ts-ls')
 require('gallo.lsp.cpp-ls')

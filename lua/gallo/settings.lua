@@ -31,17 +31,6 @@ vim.o.clipboard = 'unnamedplus' -- Copy paste between vim and everything else
 vim.cmd('filetype plugin on')
 vim.o.completeopt = 'menu,menuone,noselect'
 
--- Highlight on yank (copy). It will do a nice highlight blink of the thing you just copied.
-vim.api.nvim_exec(
-  [[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-  augroup end
-]],
-  false
-)
-
 -- Enable nvim commentary
 require('nvim_comment').setup({ comment_empty = false })
 -- Enable nvim autopairs
@@ -49,7 +38,11 @@ require('nvim-autopairs').setup()
 -- git signs
 require('gitsigns').setup()
 -- css colorizer
-require('colorizer').setup()
+require('colorizer').setup({
+  css = { rgb_fn = true },
+  html = { names = false },
+  javascript = { names = false },
+  javascriptreact = { names = false },
+})
 -- Telescope
 require('telescope').setup({ defaults = { file_ignore_patterns = { 'node_modules' } } })
-

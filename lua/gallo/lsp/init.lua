@@ -1,51 +1,18 @@
 local lsp = {}
-
--- symbols for autocomplete
-vim.lsp.protocol.CompletionItemKind = {
-  '   (Text) ',
-  '   (Method)',
-  '   (Function)',
-  '   (Constructor)',
-  ' ﴲ  (Field)',
-  '[] (Variable)',
-  '   (Class)',
-  ' ﰮ  (Interface)',
-  '   (Module)',
-  ' 襁 (Property)',
-  '   (Unit)',
-  '   (Value)',
-  ' 練 (Enum)',
-  '   (Keyword)',
-  '   (Snippet)',
-  '   (Color)',
-  '   (File)',
-  '   (Reference)',
-  '   (Folder)',
-  '   (EnumMember)',
-  ' ﲀ  (Constant)',
-  ' ﳤ  (Struct)',
-  '   (Event)',
-  '   (Operator)',
-  '   (TypeParameter)',
-  '   (V-snip)',
-}
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
 function lsp.on_attach(client, bufnr)
-  -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec(
-      [[
-  hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
-  hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
-  hi LspReferenceWrite cterm=bold ctermbg=red guibg=#464646
-  augroup lsp_document_highlight
-    autocmd! * <buffer>
-    autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-  augroup END
-]],
-      false
+    [[
+      hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
+      hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
+      hi LspReferenceWrite cterm=bold ctermbg=red guibg=#464646
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]],
+    false
     )
   end
   local function buf_set_keymap(...)
@@ -74,6 +41,7 @@ function lsp.on_attach(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<C-f>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
 
   if vim.bo.filetype == 'lua' then
     buf_set_keymap('n', '<C-r>', ':vs | term lua % <CR>', opts)
