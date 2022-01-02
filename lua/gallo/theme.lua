@@ -5,4 +5,7 @@ if string.find(theme, 'Dark') then
 else
   vim.o.background = 'light'
 end
+if vim.fn.has('unix') == 1 then
+  vim.o.background = 'dark'
+end
 require('onedarkpro').load()
