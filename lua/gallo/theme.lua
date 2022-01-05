@@ -1,8 +1,5 @@
-local theme = vim.fn.system('defaults read -g AppleInterfaceStyle')
+vim.g.tokyonight_italic_functions = true
+vim.g.tokyonight_style = 'night'
+vim.g.tokyonight_sidebars = { 'qf', 'vista_kind', 'terminal', 'packer' }
 
-if string.find(theme, 'Dark') then
-  vim.o.background = 'dark'
-else
-  vim.o.background = 'light'
-end
-require('onedarkpro').load()
+vim.cmd([[colorscheme tokyonight]])

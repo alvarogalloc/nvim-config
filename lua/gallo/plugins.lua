@@ -15,20 +15,19 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd([[packadd packer.nvim]])
 end
 
-
 local status_ok, packer = pcall(require, 'packer')
 if not status_ok then
   return
 end
 
 -- Have packer use a popup window
-packer.init {
+packer.init({
   display = {
     open_fn = function()
-      return require("packer.util").float { border = "rounded" }
+      return require('packer.util').float({ border = 'rounded' })
     end,
   },
-}
+})
 
 -- stylua: ignore start
 return packer.startup(function()
@@ -43,8 +42,11 @@ return packer.startup(function()
     'hrsh7th/nvim-cmp',
     'saadparwaiz1/cmp_luasnip',
   }
-  use  'L3MON4D3/LuaSnip'
+
+  -- Snippets
+  use 'L3MON4D3/LuaSnip'
   use 'rafamadriz/friendly-snippets'
+
   use 'github/copilot.vim'
   use 'jose-elias-alvarez/null-ls.nvim'
 
@@ -53,34 +55,37 @@ return packer.startup(function()
   use  'windwp/nvim-ts-autotag'
 
   -- Tree
-  use  'kyazdani42/nvim-tree.lua'
+  use 'kyazdani42/nvim-tree.lua'
 
   -- Search
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
-  }
-  use {
-    'rmagatti/session-lens',
-    requires = { 'rmagatti/auto-session', 'nvim-telescope/telescope.nvim' },
+  use 'nvim-telescope/telescope.nvim'
+  use 'rmagatti/auto-session'
+  use {'rmagatti/session-lens',
     config = function()
       require('session-lens').setup { path_display = { 'shorten' } }
     end,
   }
 
   -- git
-  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-
+  use 'lewis6991/gitsigns.nvim'
   -- Theme
-  use'goolord/alpha-nvim'
-  use 'olimorris/onedarkpro.nvim'
+  use 'folke/tokyonight.nvim'
 
   -- MISC
+  use 'nvim-lua/plenary.nvim'
+  use'goolord/alpha-nvim'
+  use 'nvim-lua/popup.nvim'
+
+  -- Icons
   use 'kyazdani42/nvim-web-devicons'
-  use 'lukas-reineke/indent-blankline.nvim'
+
+
+  -- Status/Tabline
   use 'akinsho/bufferline.nvim'
-  use { 'hoob3rt/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
+  use 'hoob3rt/lualine.nvim'
+
   use 'terrortylor/nvim-comment'
+  use 'lukas-reineke/indent-blankline.nvim'
   use 'windwp/nvim-autopairs'
   use 'norcalli/nvim-colorizer.lua'
   use 'mattn/emmet-vim'

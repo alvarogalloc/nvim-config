@@ -23,14 +23,15 @@ keymap('n', '<A-Left>', ':vertical resize +2<CR>', opts)
 keymap('n', '<S-l>', ':bnext<CR>', opts)
 keymap('n', '<S-h>', ':bprevious<CR>', opts)
 keymap('n', '<Leader>q', ':bdelete<CR>', opts)
+keymap('n', '<C-q>', ':qall<CR>', opts)
 
 -- Move Line up and down
-keymap('n', '<C-j>', '<Esc>:m .+1<CR>==gi', opts)
-keymap('n', '<C-k>', '<Esc>:m .-2<CR>==gi', opts)
+keymap('n', '<S-j>', '<Esc>:m .+1<CR>==gi', opts)
+keymap('n', '<S-k>', '<Esc>:m .-2<CR>==gi', opts)
 
 -- Move selection up and down
-keymap('v', '<C-j>', ':m .+1<CR>==', opts)
-keymap('v', '<C-k>', ':m .-2<CR>==', opts)
+keymap('v', '<S-j>', ':m .+1<CR>==', opts)
+keymap('v', '<S-k>', ':m .-2<CR>==', opts)
 keymap('v', 'p', '"_dP', opts)
 
 -- Telescope

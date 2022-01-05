@@ -30,6 +30,7 @@ vim.o.updatetime = 300 -- Faster completion
 vim.o.clipboard = 'unnamedplus' -- Copy paste between vim and everything else
 vim.cmd('filetype plugin on')
 vim.o.completeopt = 'menu,menuone,noselect'
+vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 -- Enable nvim commentary
 require('nvim_comment').setup({ comment_empty = false })
