@@ -2,7 +2,7 @@ local lsp = {}
 function lsp.on_attach(client, bufnr)
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec(
-    [[
+      [[
       hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
       hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
       hi LspReferenceWrite cterm=bold ctermbg=red guibg=#464646
@@ -12,7 +12,7 @@ function lsp.on_attach(client, bufnr)
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
       augroup END
     ]],
-    false
+      false
     )
   end
   local function buf_set_keymap(...)
@@ -41,7 +41,6 @@ function lsp.on_attach(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<C-f>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
 
   if vim.bo.filetype == 'lua' then
     buf_set_keymap('n', '<C-r>', ':vs | term lua % <CR>', opts)

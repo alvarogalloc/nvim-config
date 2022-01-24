@@ -30,7 +30,7 @@ local tree_keybindings = {
   { key = ']c', cb = tree_cb('next_git_item') },
   { key = { '-', '>' }, cb = tree_cb('dir_up') },
   { key = 'q', cb = tree_cb('close') },
-  { key = 'g?', cb = tree_cb('toggle_help') },
+  { key = '?', cb = tree_cb('toggle_help') },
 }
 
 vim.g.nvim_tree_quit_on_open = 1
@@ -38,7 +38,6 @@ vim.g.nvim_tree_quit_on_open = 1
 
 require('nvim-tree').setup({
   filters = { dotfiles = true, custom = {} },
-  quit_on_open = 1,
   disable_netrw = true,
   hijack_netrw = true,
   open_on_setup = true,
@@ -50,6 +49,15 @@ require('nvim-tree').setup({
   update_cwd = true,
   update_focused_file = { enable = false, update_cwd = false, ignore_list = {} },
   system_open = { cmd = nil, args = {} },
+  diagnostics = {
+    enable = false,
+    icons = {
+      hint = '',
+      info = '',
+      warning = '',
+      error = '',
+    },
+  },
   view = {
     width = 30,
     height = 30,

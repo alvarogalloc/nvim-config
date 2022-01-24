@@ -9,7 +9,7 @@
 -- Markdown better support.
 -- Better window resizing.
 -- Remove BufferLine on Start Screen.
-vim.cmd [[
+vim.cmd([[
   augroup _general_settings
     autocmd!
     autocmd FileType qf,help,man,lspinfo nnoremap <silent> <buffer> q :close<CR> 
@@ -35,4 +35,4 @@ vim.cmd [[
     autocmd!
     autocmd User AlphaReady set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
   augroup end
-]]
+]])

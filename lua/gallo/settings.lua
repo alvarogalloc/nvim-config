@@ -30,12 +30,11 @@ vim.o.updatetime = 300 -- Faster completion
 vim.o.clipboard = 'unnamedplus' -- Copy paste between vim and everything else
 vim.cmd('filetype plugin on')
 vim.o.completeopt = 'menu,menuone,noselect'
-vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal'
 
+require('nvim-autopairs').setup({})
 -- Enable nvim commentary
 require('nvim_comment').setup({ comment_empty = false })
--- Enable nvim autopairs
-require('nvim-autopairs').setup()
 -- git signs
 require('gitsigns').setup()
 -- css colorizer
@@ -46,4 +45,15 @@ require('colorizer').setup({
   javascriptreact = { names = false },
 })
 -- Telescope
-require('telescope').setup({ defaults = { file_ignore_patterns = { 'node_modules' } } })
+local actions = require('telescope.actions')
+require('telescope').setup({
+  defaults = {
+    file_ignore_patterns = { 'node_modules', '.cache' },
+    mappings = {
+      i = {
+        ['<esc>'] = actions.close,
+        ['<Leader><Leader>'] = actions.close,
+      },
+    },
+  },
+})

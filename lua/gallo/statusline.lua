@@ -1,8 +1,7 @@
 require('lualine').setup({
   options = {
     -- ... your lualine config
-    theme = 'tokyonight',
+    theme = 'github',
     -- ... your lualine config
   },
-  sections = { lualine_c = { require('auto-session-library').current_session_name } },
 })

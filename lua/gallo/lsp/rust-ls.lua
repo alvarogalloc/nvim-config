@@ -1,12 +1,16 @@
 local lsp = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').update_capabilities(
+  vim.lsp.protocol.make_client_capabilities()
+)
 
 lsp.rust_analyzer.setup({
+  capabilities = capabilities,
   on_attach = require('gallo.lsp').on_attach,
   settings = {
     ['rust-analyzer'] = {
-      assist = { importGranularity = 'module', importPrefix = 'by_self' },
-      cargo = { loadOutDirsFromCheck = true },
-      procMacro = { enable = true },
+      checkOnSave = {
+        enable = false,
+      },
     },
   },
 })
