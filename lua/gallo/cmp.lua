@@ -15,6 +15,10 @@ local check_backspace = function()
   return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 end
 
+local function replace_termcodes(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
 --   פּ ﯟ   some other good icons
 local kind_icons = {
   Text = '',
@@ -54,24 +58,24 @@ cmp.setup({
   mapping = {
     ['<C-k>'] = cmp.mapping.select_prev_item(),
     ['<C-j>'] = cmp.mapping.select_next_item(),
-    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-1), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(1), { 'i', 'c' }),
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-2), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(2), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
     ['<C-e>'] = cmp.mapping({
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<CR>'] = cmp.mapping.confirm({
+      select = true,
+    }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expandable() then
-        luasnip.expand()
       elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
+        vim.fn.feedkeys(replace_termcodes('<Plug>luasnip-expand-or-jump'), '')
       elseif check_backspace() then
-        fallback()
+        vim.fn.feedkeys(replace_termcodes('<Tab>'), 'n')
       else
         fallback()
       end
@@ -83,7 +87,7 @@ cmp.setup({
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+        vim.fn.feedkeys(replace_termcodes('<Plug>luasnip-jump-prev'), '')
       else
         fallback()
       end
@@ -93,19 +97,19 @@ cmp.setup({
     }),
   },
   formatting = {
-    fields = { 'abbr', 'kind' },
+    -- fields = { 'abbr', 'kind', 'menu' },
     ---@diagnostic disable-next-line: unused-local
     format = function(entry, vim_item)
       -- Kind icons
       vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
-      -- -- Source
-      -- vim_item.menu = ({
-      --   buffer = '[Buffer]',
-      --   nvim_lsp = '[LSP]',
-      --   luasnip = '[LuaSnip]',
-      --   nvim_lua = '[Lua]',
-      --   latex_symbols = '[LaTeX]',
-      -- })[entry.source.name]
+      -- Source
+      vim_item.menu = ({
+        buffer = '[Buffer]',
+        nvim_lsp = '[LSP]',
+        luasnip = '[LuaSnip]',
+        nvim_lua = '[Lua]',
+        latex_symbols = '[LaTeX]',
+      })[entry.source.name]
       return vim_item
     end,
   },
