@@ -16,6 +16,7 @@ require('gallo.cmp')
 
 -- LSP
 require('gallo.lsp')
+require('gallo.lsp').setup()
 require('gallo.lsp.python-ls')
 require('gallo.lsp.js-ts-ls')
 require('gallo.lsp.cpp-ls')

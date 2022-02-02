@@ -26,7 +26,7 @@ vim.o.backup = false -- This is recommended by coc
 vim.o.writebackup = false -- This is recommended by coc
 vim.o.swapfile = false
 vim.wo.signcolumn = 'yes' -- Always show the signcolumn, otherwise it would shift the text each time
-vim.o.updatetime = 100 -- Faster completion
+vim.o.updatetime = 300 -- Faster completion
 vim.o.clipboard = 'unnamedplus' -- Copy paste between vim and everything else
 vim.cmd('filetype plugin on')
 vim.o.completeopt = 'menu,menuone,noselect'

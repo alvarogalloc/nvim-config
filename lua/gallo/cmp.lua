@@ -73,7 +73,7 @@ cmp.setup({
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
-        vim.fn.feedkeys(replace_termcodes('<Plug>luasnip-expand-or-jump'), '')
+        luasnip.expand_or_jump()
       elseif check_backspace() then
         vim.fn.feedkeys(replace_termcodes('<Tab>'), 'n')
       else
@@ -87,7 +87,7 @@ cmp.setup({
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
-        vim.fn.feedkeys(replace_termcodes('<Plug>luasnip-jump-prev'), '')
+        luasnip.jump(-1)
       else
         fallback()
       end
@@ -116,7 +116,6 @@ cmp.setup({
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'nvim_lua' },
     { name = 'path' },
     { name = 'buffer' },
   },

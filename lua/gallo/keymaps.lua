@@ -4,6 +4,9 @@ local opts = { noremap = true, silent = true }
 keymap('', '<Space>', '<Nop>', opts)
 vim.g.mapleader = ' '
 
+-- map to leave insert mode
+keymap('i', 'jk', '<ESC>', opts)
+
 -- Better window navigation
 keymap('n', '<C-h>', '<C-w>h', opts)
 keymap('n', '<C-j>', '<C-w>j', opts)

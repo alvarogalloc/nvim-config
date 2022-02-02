@@ -5,8 +5,12 @@ local sources = {
   b.formatting.prettier.with({
     extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' },
   }),
-  b.diagnostics.eslint_d,
-  b.code_actions.eslint_d,
+  b.diagnostics.eslint_d.with({
+    extra_args = { '--cache' },
+  }),
+  b.code_actions.eslint_d.with({
+    extra_args = { '--cache' },
+  }),
   b.formatting.black.with({ extra_args = { '--fast' } }),
   b.diagnostics.flake8,
   b.formatting.stylua,
