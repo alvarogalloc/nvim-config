@@ -20,7 +20,7 @@ require('dep')({
   {
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      vim.cmd([[TSInstall]])
+      vim.cmd([[TSUpdate]])
     end,
   },
   'windwp/nvim-ts-autotag',
@@ -39,7 +39,7 @@ require('dep')({
   'projekt0n/github-nvim-theme',
 
   'nvim-lua/plenary.nvim',
-  'goolord/alpha-nvim',
+  'startup-nvim/startup.nvim',
   'nvim-lua/popup.nvim',
   'kyazdani42/nvim-web-devicons',
   'akinsho/bufferline.nvim',

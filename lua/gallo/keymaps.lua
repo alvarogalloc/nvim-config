@@ -39,6 +39,7 @@ keymap('v', 'p', '"_dP', opts)
 
 -- Telescope
 keymap('n', '<C-p>', ":lua require'gallo.finder'.pr()<CR>", opts)
+keymap('n', '<Leader>cs', ":Telescope colorscheme <CR>", opts)
 keymap('n', '<Leader><Leader>', ":lua require'gallo.finder'.ff()<CR>", opts)
 keymap('n', '<C-Space>', ":lua require'gallo.finder'.lg()<CR>", opts)
 
