@@ -16,6 +16,9 @@ require('dep')({
   'github/copilot.vim',
   'jose-elias-alvarez/null-ls.nvim',
 
+  -- Startup Screen
+  'goolord/alpha-nvim',
+
   -- Syntax
   {
     'nvim-treesitter/nvim-treesitter',
@@ -38,15 +41,24 @@ require('dep')({
   'olimorris/onedarkpro.nvim',
   'projekt0n/github-nvim-theme',
 
+  -- Plugin used
   'nvim-lua/plenary.nvim',
-  'startup-nvim/startup.nvim',
   'nvim-lua/popup.nvim',
   'kyazdani42/nvim-web-devicons',
+
+  -- Startup Time
+  'lewis6991/impatient.nvim',
+
+  -- Bufferline / statusline
   'akinsho/bufferline.nvim',
   'hoob3rt/lualine.nvim',
+
+  -- Comment
   'terrortylor/nvim-comment',
-  'lukas-reineke/indent-blankline.nvim',
+
+  -- Color hex, rgb, hsl
   'norcalli/nvim-colorizer.lua',
+
+  -- Emmet
   'mattn/emmet-vim',
-  'lewis6991/impatient.nvim',
 })

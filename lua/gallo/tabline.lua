@@ -13,6 +13,7 @@ require('bufferline').setup({
     offsets = { { filetype = 'NvimTree', text = '', text_align = 'center', padding = 1 } },
     show_tab_indicators = true,
     show_close_icon = false,
+    always_show_bufferline = true,
   },
   highlights = {
     fill = {

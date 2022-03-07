@@ -30,7 +30,7 @@ vim.o.updatetime = 1000 -- Faster completion
 vim.o.clipboard = 'unnamedplus' -- Copy paste between vim and everything else
 vim.cmd('filetype plugin on')
 vim.o.completeopt = 'menu,menuone,noselect'
-vim.wo.colorcolumn = "99999"
+vim.wo.colorcolumn = '99999'
 vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal'
 
 require('nvim-autopairs').setup({})
@@ -49,7 +49,7 @@ require('colorizer').setup({
 local actions = require('telescope.actions')
 require('telescope').setup({
   defaults = {
-    file_ignore_patterns = { 'node_modules', '.cache' },
+    file_ignore_patterns = { 'node_modules', '.cache', '.git' },
     mappings = {
       i = {
         ['<esc>'] = actions.close,

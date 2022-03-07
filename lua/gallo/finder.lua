@@ -15,6 +15,7 @@ require('auto-session').setup(autosessionopts)
 -- Dropdown list theme using a builtin theme definitions :
 local pickeropts = require('telescope.themes').get_dropdown({
   winblend = 10,
+  hidden = true,
   prompt_title = false,
   width = 0.5,
   results_height = 15,
@@ -37,6 +38,7 @@ local finder = {}
 -- Find files with_preview settings
 finder.ff = function()
   local opts = vim.deepcopy(pickeropts)
+  opts.hidden = true
   require('telescope.builtin').fd(opts)
 end
 
@@ -55,6 +57,7 @@ end
 -- Live grep / serach words
 finder.lg = function()
   local opts = vim.deepcopy(with_preview)
+  opts.hidden = true
   require('telescope.builtin').live_grep(opts)
 end
 

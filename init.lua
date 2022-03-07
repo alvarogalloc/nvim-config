@@ -1,7 +1,7 @@
 require('gallo.dep')
 require('gallo.settings')
 require('gallo.keymaps')
-require('gallo.dashboard')
+require('gallo.startup')
 require('gallo.statusline')
 require('gallo.theme')
 require('gallo.tree')
