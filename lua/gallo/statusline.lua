@@ -1,14 +1,21 @@
-require('lualine').setup({
+require('lualine').setup {
   options = {
     icons_enabled = true,
     theme = 'auto',
     component_separators = { left = ' ', right = ' ' },
     section_separators = { left = ' ', right = ' ' },
-    disabled_filetypes = {},
+    disabled_filetypes = { 'NvimTree' },
     always_divide_middle = true,
   },
   sections = {
-    lualine_a = { 'mode' },
+    lualine_a = {
+      {
+        'mode',
+        fmt = function(str)
+          return str:lower()
+        end,
+      },
+    },
     lualine_b = { 'branch', 'diff', 'diagnostics' },
     lualine_c = { 'filename' },
     lualine_x = { 'filetype' },
@@ -25,14 +32,4 @@ require('lualine').setup({
   },
   tabline = {},
   extensions = {},
-})
-
-vim.api.nvim_exec(
-  [[
-  function! DisableST()
-  return " "
-endfunction
-au BufEnter NvimTree setlocal statusline=%!DisableST()
-]],
-  false
-)
+}

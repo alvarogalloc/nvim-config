@@ -5,7 +5,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
-require('lspconfig').sumneko_lua.setup({
+require('lspconfig').sumneko_lua.setup {
   capabilities = capabilities,
   on_attach = require('gallo.lsp').on_attach,
   settings = {
@@ -21,12 +21,12 @@ require('lspconfig').sumneko_lua.setup({
       workspace = {
         -- Make the server aware of Neovim runtime files
         library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.stdpath('config') .. '/lua'] = true,
+          [vim.fn.expand '$VIMRUNTIME/lua'] = true,
+          [vim.fn.stdpath 'config' .. '/lua'] = true,
         },
       },
       -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = { enable = false },
     },
   },
-})
+}

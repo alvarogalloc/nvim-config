@@ -7,13 +7,12 @@ lsp.setup = function()
     { name = 'DiagnosticSignHint', text = '' },
     { name = 'DiagnosticSignInfo', text = '' },
   }
-
   for _, sign in ipairs(signs) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
   end
 
   local config = {
-    virtual_text = true,
+    virtual_text = false,
     -- show signs
     signs = {
       active = signs,
@@ -22,7 +21,7 @@ lsp.setup = function()
     underline = true,
     severity_sort = true,
     float = {
-      focusable = false,
+      focusable = true,
       style = 'minimal',
       border = 'rounded',
       source = 'always',
@@ -43,7 +42,7 @@ lsp.setup = function()
 end
 
 function lsp.on_attach(client, bufnr)
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.document_highlight then
     vim.api.nvim_exec(
       [[
       hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
@@ -99,8 +98,7 @@ function lsp.on_attach(client, bufnr)
     '<cmd>lua vim.diagnostic.goto_next({ float =  { border = "rounded" }})<CR>',
     opts
   )
-  buf_set_keymap('n', '<C-f>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
+  buf_set_keymap('n', '<S-f>', '<cmd>lua vim.lsp.buf.format{async=true}<CR>', opts)
   if vim.bo.filetype == 'lua' then
     buf_set_keymap('n', '<C-r>', ':vs | term lua % <CR>', opts)
   end

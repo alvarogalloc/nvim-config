@@ -1,6 +1,6 @@
-vim.cmd('hi TabLineFill ctermbg=NONE cterm=NONE')
+vim.cmd 'hi TabLineFill ctermbg=NONE cterm=NONE'
 -- Buffer line setup
-require('bufferline').setup({
+require('bufferline').setup {
   options = {
     indicator_icon = '▎',
     buffer_close_icon = '',
@@ -21,4 +21,4 @@ require('bufferline').setup({
       guibg = { attribute = 'bg', highlight = 'StatusLineNC' },
     },
   },
-})
+}

@@ -1,5 +1,4 @@
-require('nvim-treesitter.configs').setup({
-  -- ensure_installed = { 'cpp', 'lua', 'javascript' }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
   },
@@ -7,4 +6,8 @@ require('nvim-treesitter.configs').setup({
   autopairs = {
     enable = true,
   },
-})
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+  },
+}

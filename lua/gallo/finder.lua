@@ -1,9 +1,26 @@
-require('session-lens').setup({ path_display = { 'shorten' } })
+-- Telescope
+local actions = require 'telescope.actions'
+require('telescope').setup {
+  defaults = {
+    preview = {
+      timeout = false,
+    },
+    file_ignore_patterns = { 'node_modules', '.cache', '.git' },
+    mappings = {
+      i = {
+        ['<esc>'] = actions.close,
+        ['<Leader><Leader>'] = actions.close,
+        ['<C-Space>'] = actions.close,
+      },
+    },
+  },
+}
+require('session-lens').setup { path_display = { 'shorten' } }
 
 local autosessionopts = {
   log_level = 'info',
   auto_session_enable_last_session = false,
-  auto_session_root_dir = vim.fn.stdpath('data') .. '/sessions/',
+  auto_session_root_dir = vim.fn.stdpath 'data' .. '/sessions/',
   auto_session_enabled = true,
   auto_session_create_enabled = false,
   auto_save_enabled = true,
@@ -13,14 +30,14 @@ local autosessionopts = {
 require('auto-session').setup(autosessionopts)
 
 -- Dropdown list theme using a builtin theme definitions :
-local pickeropts = require('telescope.themes').get_dropdown({
+local pickeropts = require('telescope.themes').get_dropdown {
   winblend = 10,
   hidden = true,
   prompt_title = false,
   width = 0.5,
   results_height = 15,
   previewer = false,
-})
+}
 -- Settings for with preview option
 local with_preview = {
   winblend = 10,
