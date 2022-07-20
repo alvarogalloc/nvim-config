@@ -10,6 +10,7 @@
 -- })
 
 require('github-theme').setup {
+  -- theme_style = 'light_default',
   theme_style = 'dark',
   function_style = 'italic',
   dark_float = true,
@@ -19,7 +20,7 @@ require('github-theme').setup {
   colors = { hint = 'orange', error = '#ff0000' },
 
   -- Overwrite the highlight groups
-  overrides = function(c)
+  overrides = function()
     return {
       -- htmlTag = { fg = c.red, bg = '#282c34', sp = c.hint },
       DiagnosticHint = { link = 'LspDiagnosticsDefaultHint' },

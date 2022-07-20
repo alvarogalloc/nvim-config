@@ -1,16 +1,54 @@
 -- Telescope
 local actions = require 'telescope.actions'
+
+local previewers = require 'telescope.previewers'
+
+local new_maker = function(filepath, bufnr, opts)
+  opts = opts or {}
+
+  filepath = vim.fn.expand(filepath)
+  vim.loop.fs_stat(filepath, function(_, stat)
+    if not stat then
+      return
+    end
+    if stat.size > 100000 then
+      return
+    else
+      previewers.buffer_previewer_maker(filepath, bufnr, opts)
+    end
+  end)
+end
+
 require('telescope').setup {
   defaults = {
+    buffer_previewer_maker = new_maker,
     preview = {
       timeout = false,
     },
+    prompt_prefix = ' ',
+    selection_caret = ' ',
+    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+    color_devicons = true,
+    entry_prefix = '  ',
+
     file_ignore_patterns = { 'node_modules', '.cache', '.git' },
     mappings = {
       i = {
         ['<esc>'] = actions.close,
         ['<Leader><Leader>'] = actions.close,
         ['<C-Space>'] = actions.close,
+        ['<C-n>'] = actions.move_selection_next,
+        ['<C-p>'] = actions.move_selection_previous,
+        ['<C-c>'] = actions.close,
+        ['<C-j>'] = actions.move_selection_next,
+        ['<C-k>'] = actions.move_selection_previous,
+        ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
+        ['<CR>'] = actions.select_default,
+      },
+      n = {
+        ['<C-n>'] = actions.move_selection_next,
+        ['<C-p>'] = actions.move_selection_previous,
+        ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
       },
     },
   },
@@ -25,7 +63,7 @@ local autosessionopts = {
   auto_session_create_enabled = false,
   auto_save_enabled = true,
   auto_restore_enabled = false,
-  auto_session_suppress_dirs = { '~/', '~/code' },
+  auto_session_suppress_dirs = { '~/', '~/code', '~/.local', '~/.cache' },
 }
 require('auto-session').setup(autosessionopts)
 
@@ -56,6 +94,7 @@ local finder = {}
 finder.ff = function()
   local opts = vim.deepcopy(pickeropts)
   opts.hidden = true
+  opts.git = true
   require('telescope.builtin').fd(opts)
 end
 

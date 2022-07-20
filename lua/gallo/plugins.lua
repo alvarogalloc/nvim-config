@@ -8,7 +8,6 @@ local cmd = vim.cmd
 local present, packer = pcall(require, 'packer')
 if not present then
   local packer_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-
   print 'Cloning packer..'
   -- remove the dir before cloning
   vim.fn.delete(packer_path, 'rf')
@@ -42,25 +41,25 @@ packer.init {
     clone_timeout = 800, -- Timeout, in seconds, for git clones
   },
   auto_clean = true,
-  compile_on_sync = false,
+  compile_on_sync = true,
   -- compile_path = vim.fn.stdpath 'config' .. '/lua/gallo/compiled.lua',
 }
 local lsp_ft = {
-  'json',
-  'css',
-  'html',
-  'yaml',
-  'cpp',
-  'php',
-  'cmake',
-  'c',
-  'javascript',
-  'javascriptreact',
-  'typescript',
-  'typescriptreact',
-  'lua',
-  'rust',
-  'python',
+  json = true,
+  css = true,
+  html = true,
+  yaml = true,
+  cpp = true,
+  php = true,
+  cmake = true,
+  c = true,
+  javascript = true,
+  javascriptreact = true,
+  typescript = true,
+  typescriptreact = true,
+  lua = true,
+  rust = true,
+  python = true,
 }
 
 return require('packer').startup(function(use)
@@ -72,7 +71,6 @@ return require('packer').startup(function(use)
     config = function()
       require 'gallo.lsp'
       require 'gallo.lsp.lua-ls'
-      require 'gallo.lsp.nullls-ls'
       -- require 'gallo.lsp.emmet-ls'
       require 'gallo.lsp.rust-ls'
       require 'gallo.lsp.python-ls'
@@ -82,44 +80,46 @@ return require('packer').startup(function(use)
       require 'gallo.lsp.css-ls'
       require 'gallo.lsp.php-ls'
       require 'gallo.lsp.json-ls'
-      -- require 'gallo.lsp.tailwind-ls'
+      require 'gallo.lsp.tailwind-ls'
       require('gallo.lsp').setup()
     end,
-    event = 'BufWinEnter',
     requires = 'hrsh7th/cmp-nvim-lsp',
   }
+  use { 'kkharji/lspsaga.nvim' }
   use {
     'jose-elias-alvarez/null-ls.nvim',
     after = 'nvim-lspconfig',
+    config = function()
+      require 'gallo.lsp.nullls-ls'
+    end,
   }
   -- Completion
   use {
+    'rafamadriz/friendly-snippets',
+    event = { 'InsertEnter', 'CmdlineEnter' },
+  }
+  use {
+    'hrsh7th/vim-vsnip',
+    after = 'friendly-snippets',
+  }
+  use {
     'hrsh7th/nvim-cmp',
-    event = 'BufRead',
+    after = 'vim-vsnip',
     requires = {
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-vsnip',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      {
-        'hrsh7th/vim-vsnip',
-        requires = {
-          'rafamadriz/friendly-snippets',
-        },
-      },
     },
     config = function()
       require 'gallo.cmp'
     end,
   }
-  use 'rafamadriz/friendly-snippets'
   use {
     'github/copilot.vim',
     event = 'InsertEnter',
-    ft = lsp_ft,
-    after = 'nvim-lspconfig',
     config = function()
+      vim.g.copilot_filetypes = lsp_ft
       vim.cmd [[imap <silent><script><expr> <C-c> copilot#Accept("<CR>")]]
       vim.cmd [[let g:copilot_no_tab_map = v:true]]
       vim.cmd [[let g:copilot_assume_mapped = v:true]]
@@ -130,40 +130,27 @@ return require('packer').startup(function(use)
   -- Syntax
   use {
     'nvim-treesitter/nvim-treesitter',
-    requires = {
-      'windwp/nvim-ts-autotag',
-      'JoosepAlviste/nvim-ts-context-commentstring',
-    },
     event = 'BufRead',
-    ft = {
-      'cpp',
-      'c',
-      'javascript',
-      'javascriptreact',
-      'typescript',
-      'typescriptreact',
-      'lua',
-      'rust',
-      'python',
-    },
     config = function()
       require 'gallo.treesitter'
     end,
   }
+  use { 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' }
+  use { 'JoosepAlviste/nvim-ts-context-commentstring', after = 'nvim-treesitter' }
   use {
     'kyazdani42/nvim-tree.lua',
+    cmd = 'NvimTreeToggle',
     config = function()
       require 'gallo.tree'
     end,
   }
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { 'rmagatti/session-lens' },
+    requires = { 'rmagatti/session-lens', 'rmagatti/auto-session' },
     config = function()
       require 'gallo.finder'
     end,
   }
-  use 'rmagatti/auto-session'
   use {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
@@ -196,8 +183,15 @@ return require('packer').startup(function(use)
   use 'nathom/filetype.nvim'
 
   -- Bufferline / statusline
-  use 'akinsho/bufferline.nvim'
-  use 'hoob3rt/lualine.nvim'
+  use { 'akinsho/bufferline.nvim', events = { 'BufNewFile', 'BufRead', 'TabEnter' } }
+  use { 'hoob3rt/lualine.nvim' , events = { 'BufNewFile', 'BufRead', 'TabEnter' }}
+  use {
+    'goolord/alpha-nvim',
+    after = 'nvim-web-devicons',
+    config = function()
+      require 'gallo.startup'
+    end,
+  }
 
   -- Comment
   use {
@@ -225,11 +219,10 @@ return require('packer').startup(function(use)
   -- Emmet
   use {
     'mattn/emmet-vim',
-    ft = { 'html', 'css', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    event = 'InsertEnter',
     config = function()
-      vim.cmd [[let g:user_emmet_install_global = 0]]
-      vim.cmd [[autocmd FileType html,css,javascript,javascriptreact EmmetInstall]]
-      vim.cmd [[  let g:user_emmet_leader_key = ',']]
+      vim.g.user_emmet_install_global = 0
+      vim.cmd [[autocmd FileType css, html, javascript, javascriptreact EmmetInstall]]
     end,
   }
   -- Color hex, rgb, hsl

@@ -1,4 +1,4 @@
-vim.cmd 'hi TabLineFill ctermbg=NONE cterm=NONE'
+-- vim.cmd 'hi TabLineFill ctermbg=NONE cterm=NONE'
 -- Buffer line setup
 require('bufferline').setup {
   options = {
@@ -17,8 +17,8 @@ require('bufferline').setup {
   },
   highlights = {
     fill = {
-      guifg = { attribute = 'fg', highlight = 'Normal' },
-      guibg = { attribute = 'bg', highlight = 'StatusLineNC' },
+      -- guifg = { attribute = 'fg', highlight = 'Normal' },
+      -- guibg = { attribute = 'bg', highlight = 'StatusLineNC' },
     },
   },
 }

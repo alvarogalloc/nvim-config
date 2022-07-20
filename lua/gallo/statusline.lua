@@ -17,7 +17,7 @@ require('lualine').setup {
       },
     },
     lualine_b = { 'branch', 'diff', 'diagnostics' },
-    lualine_c = { 'filename' },
+    lualine_c = { 'filename', require('auto-session-library').current_session_name },
     lualine_x = { 'filetype' },
     lualine_y = { 'progress' },
     lualine_z = { 'location' },

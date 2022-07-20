@@ -1,5 +1,4 @@
 local lsp = {}
-
 lsp.setup = function()
   local signs = {
     { name = 'DiagnosticSignError', text = '' },
@@ -18,7 +17,7 @@ lsp.setup = function()
       active = signs,
     },
     update_in_insert = true,
-    underline = true,
+    -- underline = true,
     severity_sort = true,
     float = {
       focusable = true,
@@ -41,24 +40,27 @@ lsp.setup = function()
   })
 end
 
-function lsp.on_attach(client, bufnr)
-  if client.server_capabilities.document_highlight then
-    vim.api.nvim_exec(
-      [[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
-      hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=#464646
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]],
-      false
-    )
+local floatopts = {
+  focusable = true,
+  close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+  border = 'rounded',
+  source = 'always',
+  prefix = ' ',
+  scope = 'cursor',
+}
+OpenDiagFloat = function()
+  for _, winid in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if vim.api.nvim_win_get_config(winid).zindex then
+      return
+    end
   end
-  local function buf_set_keymap(...)
-    vim.api.nvim_buf_set_keymap(bufnr, ...)
+  vim.diagnostic.open_float(floatopts)
+end
+
+function lsp.on_attach(client, bufnr)
+  local opts = { noremap = true, silent = true, buffer = bufnr }
+  local function buf_set_keymap(mode, key, cmd)
+    vim.keymap.set(mode, key, cmd, opts)
   end
   local function buf_set_option(...)
     vim.api.nvim_buf_set_option(bufnr, ...)
@@ -66,45 +68,27 @@ function lsp.on_attach(client, bufnr)
 
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap = true, silent = true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  -- if client.resolved_capabilities.
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', 'gk', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap(
-    'n',
-    '<space>e',
-    '<cmd>lua vim.diagnostic.open_float(0, { scope = "line", border = "rounded" })<CR>',
-    opts
-  )
-  buf_set_keymap(
-    'n',
-    '<C-m>',
-    '<cmd>lua vim.diagnostic.goto_prev({ float =  { border = "rounded" }})<CR>',
-    opts
-  )
-  buf_set_keymap(
-    'n',
-    '<C-n>',
-    '<cmd>lua vim.diagnostic.goto_next({ float =  { border = "rounded" }})<CR>',
-    opts
-  )
-  buf_set_keymap('n', '<S-f>', '<cmd>lua vim.lsp.buf.format{async=true}<CR>', opts)
-  if vim.bo.filetype == 'lua' then
-    buf_set_keymap('n', '<C-r>', ':vs | term lua % <CR>', opts)
-  end
-  if vim.bo.filetype == 'python' then
-    buf_set_keymap('n', '<C-r>', ':vs | term python3 % <CR>', opts)
-  end
+  buf_set_keymap('n', 'gr', vim.lsp.buf.references)
+  buf_set_keymap('n', 'gD', vim.lsp.buf.declaration)
+  buf_set_keymap('n', 'gd', vim.lsp.buf.definition)
+  buf_set_keymap('n', 'gi', vim.lsp.buf.implementation)
+  buf_set_keymap('n', 'gk', vim.lsp.buf.hover)
+  buf_set_keymap('n', 'gs', vim.lsp.buf.signature_help)
+  buf_set_keymap('n', '<space>rn', vim.lsp.buf.rename)
+  buf_set_keymap('n', 'ca', vim.lsp.buf.code_action)
+  buf_set_keymap('n', '<C-m>', function()
+    vim.diagnostic.goto_prev { float = floatopts }
+  end)
+  buf_set_keymap('n', '<C-n>', function()
+    vim.diagnostic.goto_next { float = floatopts }
+  end)
+  buf_set_keymap('n', '<S-f>', function()
+    vim.lsp.buf.format { async = true }
+  end)
+  vim.api.nvim_create_autocmd('CursorHold', {
+    buffer = bufnr,
+    callback = OpenDiagFloat,
+  })
 end
 
 return lsp
